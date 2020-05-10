@@ -10,6 +10,8 @@ It turns out that this greedy approach (i.e., algorithm) is not only locally opt
 Implement, in cash.c at right, a program that first asks the user how much change is owed and then prints the minimum number of coins with which that change can be made.
 */
 
+//Implement, in cash.c at right, a program that first asks the user how much change is owed and then prints the minimum number of coins with which that change can be made.
+
 #include <stdio.h>
 
 int main(void)
