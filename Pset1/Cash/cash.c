@@ -12,9 +12,45 @@ Implement, in cash.c at right, a program that first asks the user how much chang
 
 //Implement, in cash.c at right, a program that first asks the user how much change is owed and then prints the minimum number of coins with which that change can be made.
 
+//Solution 1, not very optimal 
+
+
+#include <cs50.h>
+#include <math.h>
 #include <stdio.h>
 
-int main(void)
-{
 
-}
+int main(void)
+  {
+    float dollars;//declare the float var;
+    do
+    {
+     dollars = get_float("Change owed: ");//get the value as float dollar
+    }
+    while(dollars < 0);
+    
+    int cents = round(dollars * 100);//convert the dollar into cents not to inherent imprecision of floating-point values
+    int coins = 0;
+      //check for every coins from laargest to smallest respectively
+      while(cents >= 25)
+      {
+        cents -= 25;
+        coins++;
+      }
+      while(cents >= 10)
+      {
+        cents -= 10;
+        coins++;
+      }
+      while(cents >= 5)
+      {
+        cents -= 5;
+        coins++;
+      }
+      while(cents >= 1)
+      {
+        cents -= 1;
+        coins++;
+      }
+      printf("%i\n", coins);
+  }
