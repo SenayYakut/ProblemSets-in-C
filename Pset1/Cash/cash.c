@@ -54,3 +54,31 @@ int main(void)
       }
       printf("%i\n", coins);
   }
+  //Solution 2
+#include <cs50.h>
+#include <math.h>
+#include <stdio.h>
+
+int main(void)
+  {
+    float dollars;//declare the float var;
+    do
+    {
+     dollars = get_float("Change owed: ");//get the value as float dollar
+    }
+    while(dollars < 0);
+    
+    int cents = round(dollars * 100);
+    int coins = 0;
+    
+    int arOfCoins[]={25,10,5,1};
+    for(int i=0; i<4; i++)
+    {
+    while(cents >= arOfCoins[i])
+      {
+        cents -= arOfCoins[i];
+        coins++;
+      }
+    }  
+    printf("%i\n", coins);
+  }
