@@ -14,6 +14,7 @@ Grade 3
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
 //Solution 1
 int main()
 {
@@ -55,7 +56,7 @@ int main()
     printf("Sentence(s) %d\n", sentence);
     
     float index = (0.0588 * ((alp*100)/count+1)) - (0.296 * ((sentence * 100)/count+1)) -15.8;
-    index=round(index)-1;
+    index=round(index);
         if(index>=16)
             {
               printf("Grade 16 + \n");
