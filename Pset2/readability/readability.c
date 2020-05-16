@@ -14,7 +14,7 @@ Grade 3
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
+//Solution 1
 int main()
 {
     string text = get_string("Give me a paragraph:");
