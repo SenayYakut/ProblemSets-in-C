@@ -68,4 +68,5 @@ int main()
             {
             printf("Grade %.0f\n", index);
             }
-}            
+} 
+//Solution 2 is more improved           
