@@ -39,7 +39,7 @@ int main()
  
     for (i = 0; text[i] != '\0';i++)
     {
-        if (text[i] == ' ' &&  text[i+1] != ' ')
+        if (text[i] == ' ')
             count++;    
     }
     printf("Number of words in given string are: %d\n", count + 1);
