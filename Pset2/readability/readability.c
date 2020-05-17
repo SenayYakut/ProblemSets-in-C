@@ -6,13 +6,9 @@ $ ./readability
 Text: Congratulations! Today is your day. You're off to Great Places! You're off and away!
 Grade 3
 */
-<<<<<<< HEAD
 //Much Improved Solution
-=======
-
->>>>>>> 38b400e56e0f92f81cc5ede648ff7b1350025e1b
 #include <stdio.h>
-#include <cs50.h>
+#include <cs50>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
@@ -30,19 +26,15 @@ int main(void)
        if (isalpha(s[i]))
        {
            letter_count++;
-<<<<<<< HEAD
        }
        else if (s[i] == ' ')
        {
            word_count++;
        }
-=======
-       }
        else if (s[i] == ' ')
        {
            word_count++;
        }
->>>>>>> 38b400e56e0f92f81cc5ede648ff7b1350025e1b
        else if (s[i] == '.' || s[i] == '!' || s[i] == '?')
        {
            sentence_count++;
@@ -66,9 +58,4 @@ int main(void)
         printf("Grade %i\n", (int) round(index));
     }
 
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 38b400e56e0f92f81cc5ede648ff7b1350025e1b
