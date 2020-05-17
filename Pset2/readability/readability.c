@@ -11,63 +11,49 @@ Grade 3
 
 #include <stdio.h>
 #include <cs50.h>
-#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <math.h>
 
-//Solution 1
-int main()
+int main(void)
 {
-    string text = get_string("Give me a paragraph:");
-    printf("Text: %s\n", text);
-    
- int alp, i;
- alp = i = 0;
- 
-    while(text[i]!='\0')
-      {
-        if((text[i]>='a' && text[i]<='z') || (text[i]>='A' && text[i]<='Z'))
-        {
-            alp++;
-        }
-        i++;
-      }
-    printf("Letter(s) %d\n", alp);
-  
- 
- int count = 0;
- 
-    for (i = 0; text[i] != '\0';i++)
+    string s = get_string("Text: ");
+    int letter_count = 0;
+    int word_count = 1;
+    int sentence_count = 0;
+
+//count words
+    for (int i = 0; i < strlen(s); i++)
     {
-        if (text[i] == ' ')
-            count++;    
-    }
-    printf("Number of words in given string are: %d\n", count + 1);
-    
- int sentence=0;
- 
-    for (i = 0; text[i] != '\0';i++)
-      {
-        if((text[i]=='.') || (text[i]=='!') || (text[i]=='?'))
-          {
-            sentence++;
-          }
+       if (isalpha(s[i]))
+       {
+           letter_count++;
        }
-    printf("Sentence(s) %d\n", sentence);
-    
-    float index = (0.0588 * ((alp*100)/count+1)) - (0.296 * ((sentence * 100)/count+1)) -15.8;
-    index=round(index);
-        if(index>=16)
-            {
-              printf("Grade 16 + \n");
-            }
-        else if(index<1)
-            {
-               printf("Before Grade 1 \n");
-            }
-        else 
-            {
-            printf("Grade %.0f\n", index);
-            }
-} 
-//Solution 2 is more improved           
+       else if (s[i] == ' ')
+       {
+           word_count++;
+       }
+       else if (s[i] == '.' || s[i] == '!' || s[i] == '?')
+       {
+           sentence_count++;
+       }
+    }
+//    printf("letters: %i; words: %i; sentences: %i\n", letterscount, wordcount, sentencecount);
+
+    float index = 0.0588 * (100 * (float) letter_count / (float) word_count) - 0.296 * 
+                  (100 * (float) sentence_count / (float) word_count) - 15.8;
+                  
+    if (index < 0)
+    {
+        printf("Before Grade 1\n");
+    }
+    else if (index >= 16)
+    {
+        printf("Grade 16+\n");
+    }
+    else
+    {
+        printf("Grade %i\n", (int) round(index));
+    }
+
+}
