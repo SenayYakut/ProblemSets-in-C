@@ -7,8 +7,6 @@ Text: Congratulations! Today is your day. You're off to Great Places! You're off
 Grade 3
 */
 
-
-
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
@@ -57,3 +55,4 @@ int main(void)
     }
 
 }
+
