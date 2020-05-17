@@ -10,6 +10,7 @@ Grade 3
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
+#include <ctype.h>
 #include <math.h>
 
 int main(void)
@@ -22,7 +23,7 @@ int main(void)
 //count words
     for (int i = 0; i < strlen(s); i++)
     {
-       if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z'))
+       if (isalpha(s[i]))
        {
            letter_count++;
        }
@@ -37,19 +38,20 @@ int main(void)
     }
 //    printf("letters: %i; words: %i; sentences: %i\n", letterscount, wordcount, sentencecount);
 
-    float grade = 0.0588 * (100 * (float) letter_count / (float) word_count) - 0.296 *
-                 (100 * (float) sentence_count / (float) word_count) - 15.8;
-    if (grade < 16 && grade >= 0)
+    float index = 0.0588 * (100 * (float) letter_count / (float) word_count) - 0.296 * 
+                  (100 * (float) sentence_count / (float) word_count) - 15.8;
+                  
+    if (index < 0)
     {
-        printf("Grade %i\n", (int) round(grade));
+        printf("Before Grade 1\n");
     }
-    else if (grade >= 16)
+    else if (index >= 16)
     {
         printf("Grade 16+\n");
     }
     else
     {
-        printf("Before Grade 1\n");
+        printf("Grade %i\n", (int) round(index));
     }
 
 }
