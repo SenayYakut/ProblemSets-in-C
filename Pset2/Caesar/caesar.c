@@ -29,3 +29,42 @@ Here are a few examples of how the program might work. For example, if the user 
 */
 
 //Design and implement a program, caesar, that encrypts messages using Caesar’s cipher.
+#include <stdio.h>
+#include <cs50.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+
+
+int main(int argc, string argv[])
+{
+  if (argc != 2)
+  {
+    return 1;
+  }
+
+  int shift = atoi(argv[1]);
+  
+  string  plain = get_string("plaintext: ");
+  printf("ciphertext: ");
+  for (int i = 0, len = strlen(plain); i < len; i++)
+  {
+    if(!isalpha(plain[i]))
+    {
+      printf("%c", plain[i]);
+    }
+    else
+    {
+      if(plain[i] > 'Z')
+      {
+        printf("%c", (plain[i] - 'a' + shift) % 26 + 'a');
+      }
+      else
+      {
+        printf("%c", (plain[i] - 'A' + shift) % 26 + 'A');
+      }
+    }
+  }
+  printf("\n");
+}
+

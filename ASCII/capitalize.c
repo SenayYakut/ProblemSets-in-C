@@ -23,7 +23,20 @@ int main(void)
     printf("\n");
 }
 
+//Solution 2
 
+int main(void)
+{
+    string s = get_string("Input:");
+    printf("Output: ");
+    int i;
+    int n = strlen(s);
+    for(i=0; i<n; i++)
+    {
+        printf("%c", s[i].toupper);
+    }
+    printf("\n");
+}
 
 
 
