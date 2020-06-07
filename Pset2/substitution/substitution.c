@@ -18,4 +18,85 @@ Your program must preserve case: capitalized letters must remain capitalized let
 After outputting ciphertext, you should print a newline. Your program should then exit by returning 0 from main.
 
 */
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <cs50.h>
+#include <ctype.h>
 
+int main(int argc, string argv[])
+{
+   if(argc != 2 )
+   {
+       printf("Invalid Key\n");
+       return 1;
+   }
+   
+   
+   string key = argv[1];
+   int len = strlen(key);
+   
+   if(len != 26)
+   {
+       printf("Invalid Key\n");
+       return 2;
+   }
+   
+    for (int i = 0; i < len; i++) 
+    {
+        if(!isalpha(key[i]))
+        {
+            printf("Invalid Key\n");
+            return 3;
+        }
+    }    
+
+
+   for (int i = 0; i < len - 1; i++) {
+        for (int j = i + 1; j < len; j++) {
+            if (key[i] == key[j]) {
+                printf("Invalid key\n");
+                return 4;
+            }
+        }
+    }
+
+
+   string s = get_string("plaintext: "); // get text
+   printf("ciphertext: ");
+   string ciphertext = "";
+
+   char  al[27] = {"a","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","\0"};
+
+   for (int i = 0; i < 26; i++)
+   {
+       if(!isalpha(s[i]))
+       {
+           ciphertext[i] = s[i];
+           printf("%c\n", s[i]);
+           return 0;
+       }
+   } 
+}
+
+/*
+else
+        {
+       for(int j = 0; j < key.length; j++)
+       {
+           if(tolower(s[i]) == key[i][j] && s[i] != key[i][j])
+           {
+               ciphertext[i] = toupper(alphabet[j]);
+               printf("%c\n", toupper(alphabet[j]));
+           }
+           else
+           {
+               ciphertext[i] = alphabet[j];
+               printf("%c\n", alphabet[j]);
+           }
+        }
+    }
+    }
+
+
+*/
