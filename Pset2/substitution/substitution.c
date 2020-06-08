@@ -18,85 +18,95 @@ Your program must preserve case: capitalized letters must remain capitalized let
 After outputting ciphertext, you should print a newline. Your program should then exit by returning 0 from main.
 
 */
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+
 #include <cs50.h>
+#include <stdio.h>
+#include <string.h>
 #include <ctype.h>
 
 int main(int argc, string argv[])
 {
-   if(argc != 2 )
-   {
-       printf("Invalid Key\n");
-       return 1;
-   }
-   
-   
-   string key = argv[1];
-   int len = strlen(key);
-   
-   if(len != 26)
-   {
-       printf("Invalid Key\n");
-       return 2;
-   }
-   
-    for (int i = 0; i < len; i++) 
+    //checking the key from line 10 to line 53
+    //checking if the user gave 2 arguments or not
+    if (argc != 2)
     {
-        if(!isalpha(key[i]))
+        printf("Usage: ./substitution key\n");
+        return 1;
+    }
+    //26 character or not
+    if (strlen(argv[1]) != 26)
+    {
+        printf("key must contain 26 characters.\n");
+        return 1;
+    }
+    //checking if it's all alphabet or not
+    int argvlen = strlen(argv[1]);
+    for (int i = 0; i < argvlen; i++)
+    {
+        if (isalpha(argv[1][i]) == false)
         {
-            printf("Invalid Key\n");
-            return 3;
+            printf("key must only contain alphabetic characters.\n");
+            return 1;
         }
-    }    
-
-
-   for (int i = 0; i < len - 1; i++) {
-        for (int j = i + 1; j < len; j++) {
-            if (key[i] == key[j]) {
-                printf("Invalid key\n");
-                return 4;
+    }
+    //initializing 2 dimensional array to use it in the key check and incipher the text
+    //i don't know if it's unnecessary step or not tbh please let me know
+    char alphabet[2][26];
+    for (int i = 0; i < argvlen; i++)
+    {
+        alphabet[0][i] = 'A' + i;
+        alphabet[1][i] = argv[1][i];
+    }
+    //checking for repeated items inside the key 2 or more of the same letter
+    for (int i = 0; i < argvlen; i++)
+    {
+        int j = 0;
+        for (int k = 0; k < argvlen; k++)
+        {
+            if (toupper(alphabet[1][k]) == toupper(alphabet[1][i]))
+            {
+                j++;
+                if (j == 2)
+                {
+                    printf("repeated value, check the key\n");
+                    return 1;
+                }
             }
         }
     }
-
-
-   string s = get_string("plaintext: "); // get text
-   printf("ciphertext: ");
-   string ciphertext = "";
-
-   char  al[27] = {"a","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","\0"};
-
-   for (int i = 0; i < 26; i++)
-   {
-       if(!isalpha(s[i]))
-       {
-           ciphertext[i] = s[i];
-           printf("%c\n", s[i]);
-           return 0;
-       }
-   } 
-}
-
-/*
-else
+    //finally made it to the algorithm; please recommend something better
+    string plaintext = get_string("Plaintext: ");
+    printf("ciphertext: ");
+    for (int i = 0, j = strlen(plaintext); i < j; i++)
+    {
+        if (isalpha(plaintext[i]))
+        {  
+            if (islower(plaintext[i]))
+            {
+                for (int k = 0; k < argvlen; k++)
+                {
+                    if (tolower(alphabet[0][k]) == plaintext[i])
+                    {   
+                        printf("%c", tolower(alphabet[1][k]));
+                    }
+                }
+            }
+            if (isupper(plaintext[i]))
+            {
+                for (int k = 0; k < argvlen; k++)
+                {
+                    if (toupper(alphabet[0][k]) == plaintext[i])
+                    {   
+                        printf("%c", toupper(alphabet[1][k]));
+                    }
+                }
+            }
+        }
+        else
         {
-       for(int j = 0; j < key.length; j++)
-       {
-           if(tolower(s[i]) == key[i][j] && s[i] != key[i][j])
-           {
-               ciphertext[i] = toupper(alphabet[j]);
-               printf("%c\n", toupper(alphabet[j]));
-           }
-           else
-           {
-               ciphertext[i] = alphabet[j];
-               printf("%c\n", alphabet[j]);
-           }
+            printf("%c", plaintext[i]);
         }
     }
-    }
-
-
-*/
+    printf("\n");
+    return 0;
+}
