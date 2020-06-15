@@ -22,10 +22,10 @@ int main(int argc, char *argv[])
     }
 
     // Close file
-    unsigned char bytes[3];
+    unsigned char bytes[4];
     fread(bytes, 3, 1, file);
     
-    if(bytes[0] == 0xff && bytes[1] == 0xd8 && bytes[2] == 0xff)
+    if(bytes[0] == 0xff && bytes[1] == 0xd8 && bytes[2] == 0xff && (bytes[3] & 0xf0) == 0xe0)
     {
         printf("Maybe\n");
     }
