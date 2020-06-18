@@ -28,7 +28,8 @@ int main(int argc, char *argv[])
     }
 //define a buffer
     BYTE buffer[BLOCK_SIZE];
-    int file_index = 0;
+    ils
+    nt file_index = 0;
     bool have_found_first_jpg = false;
     FILE *outfile;//define a file pointer outfile
     //read from card.raw to buffer
