@@ -30,7 +30,28 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
 // Convert image to sepia
 void sepia(int height, int width, RGBTRIPLE image[height][width])
 {
-    return;
+    //Iterate through the height of image in order to get 2 dimentional shape
+    for(int i = 0; i < height; i++)
+    {
+        //iterate through the width of the image in order to get 2 dimentional pixels of image and manupilate them
+        for(int j = 0; j < width; j++)
+        {
+            //get the original colors of the image and store them in the int variables
+            int originalRed = image[i][j].rgbtRed;
+            int originalGreen = image[i][j].rgbtGreen;
+            int originalBlue = image[i][j].rgbtBlue;
+            
+            //calculate the sepia values
+            int sepiaRed = round(.393 * originalRed + .769 * originalGreen + .189 * originalBlue);
+            int sepiaGreen = round(.349 * originalRed + .686 * originalGreen + .168 * originalBlue);
+            int sepiaBlue = round(.272 * originalRed + .534 * originalGreen + .131 * originalBlue);
+            //verfy if the sepia values are less then 255 otherwise set the new values to the max which is 255
+            image[i][j].rgbtRed = sepiaRed < 255 ? sepiaRed: 255;
+            image[i][j].rgbtBlue = sepiaBlue < 255 ? sepiaBlue: 255;
+            image[i][j].rgbtGreen = sepiaGreen < 255 ? sepiaGreen: 255;
+        }
+    
+    }
 }
 
 // Reflect image horizontally
