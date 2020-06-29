@@ -1,14 +1,16 @@
 // Implements a dictionary's functionality
 
+
 #include <stdbool.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "dictionary.h"
-#include <stdio.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
 
-// Represents a node in a hash table
+#define HASHTABLE_SIZE 1000
+// define a node
 typedef struct node
 {
     char word[LENGTH + 1];
@@ -16,93 +18,178 @@ typedef struct node
 }
 node;
 
-// Number of buckets in hash table
-const unsigned int N = 1;
-
-// Hash table
-node *table[N];
+node * hashtable[HASHTABLE_SIZE];
 
 
-// Returns true if word is in dictionary else false
+// initialize and name variables
+node *head = NULL;
+node *hashtable[1000];
+int hashtable_size = 1000;
+int wordcount;
+
+// define a hash function
+unsigned long hash(unsigned char *str)
+    {
+        unsigned long hash = 5381;
+        int c;
+
+        while (c = *str++)
+            hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+        return hash;
+    }
+
+
+/**
+ * Returns true if word is in dictionary else false.
+ */
 bool check(const char *word)
 {
     // TODO
+
+    // an int variable to contain the index of the hashed word to be checked
+    int hash = hash_function(word);
+
+    // match the index of the word to be checked if there is an existing
+    // index of it in the hash table
+    if(hashtable[hash] == NULL)
+    {
+        // return false if the index of the word to be checked didn't match
+        // with any existing index that has a word on it in hash table
+        return false;
+    }
+
+    // if it matched, proceed to checking
+    else if(hashtable[hash] != NULL)
+    {
+
+        // initialized a temp node in order to traverse through the linked-list
+        node *cursor = hashtable[hash];
+
+        // check if the current node is not empty
+        while(cursor != NULL)
+        {
+
+            // compare string per string using strcasecmp
+            int i;
+            i = strcasecmp(cursor->word, word);
+            if(i == 0)
+            {
+                return true;
+            }
+            else
+            {
+                cursor = cursor->next;
+            }
+        }
+    }
     return false;
 }
 
-// Hashes word to a number
-unsigned int hash(const char *word)
-{
-    int hash = 0;
-    int n;
-    for (int i = 0; word[i] != '\0'; i++) {
-        // alphabet case
-        if (isalpha(word[i]))
-            n = word[i] - 'a' + 1;
-        else  // comma case
-            n = 27;
 
-        hash = ((hash << 3) + n) % SIZE;
-    }
-    return hash;
-
-}
-
-// Loads dictionary into memory, returning true if successful else false
+/**
+ * Loads dictionary into memory. Returns true if successful else false.
+ */
 bool load(const char *dictionary)
 {
-    //Allocate some memory for extra buckets
-    node *n = malloc(sizeof(node));
+    // TODO
 
-    //Open dictionary file
-    FILE *fptr;
-    fptr = fopen("dictionary","r");
-    if(fptr == NULL)
+    // open dictionary file and check if it exist
+    FILE *fp = fopen(dictionary, "r");
+    if(fp == NULL)
     {
-       printf("Error! opening file");
-
-       // Program exits if the file pointer returns NULL.
-       return 1;
+        return false;
     }
-    while((fscanf(fptr, "%s", word)) != EOF)
+
+    // initialize words from dictionary to be temporarily written
+    char word[LENGTH + 1];
+
+    // initialize wordcount to 0 so it can be incremented later
+    wordcount = 0;
+
+    // look and scan for words in dictionary until the end of file
+    while(fscanf(fp, "%s", word) != EOF)
     {
+
+        // allocate memory to be used
         node *new_node = malloc(sizeof(node));
+
+        // initialize the memories allocated to NULL while it wasn't used
+        memset(new_node, 0, sizeof(node));
+
+        // if the new_node wasn't properly allocated with memory, unload
         if(new_node == NULL)
         {
-            return 1;
-            fclose(fptr);
+            unload();
+            return false;
         }
 
-        strcpy(new_node->word, word);
-        new_node->next = NULL;
-        
-       unsigned int index = hash(new_node -> word);
-       if(table[index] == NULL)
-       {
-           table[index] = new_node;
-       }
-        
-        
-        fclose(fptr);
-        return 0;
-    //Read strings from file one at a time
-    //Create a new node for each word
-    //Hash word to obtain a hash value
-    //Insert node into hash table at that location
+        // increment wordcount everytime a word is found
+        wordcount++;
 
-    
+        // copy the word found to word pointer of node
+        strcpy(new_node->word, word);
+
+        // hash the word copied so it can be indexed on the hash table
+        int hashed = hash_function(word);
+
+        // check if the index of the hashtable has contents
+        if(hashtable[hashed] == NULL)
+        {
+
+            // if there's no content, initialized the new node as the head
+            hashtable[hashed] = new_node;
+            head = new_node;
+        }
+        else
+        {
+
+            // if there's content, rewire the new node to be the head and start
+            new_node->next = hashtable[hashed];
+            hashtable[hashed] = new_node;
+            head = new_node;
+        }
+    }
+
+    fclose(fp);
+    return true;
 }
 
-// Returns number of words in dictionary if loaded else 0 if not yet loaded
+
+/**
+ * Returns number of words in dictionary if loaded else 0 if not yet loaded.
+ */
 unsigned int size(void)
 {
-    
-    return 0;
+    // TODO
+    // just return the wordcount implanted on the load function
+    return wordcount;;
 }
 
-// Unloads dictionary from memory, returning true if successful else false
+
+/**
+ * Unloads dictionary from memory. Returns true if successful else false.
+ */
 bool unload(void)
 {
     // TODO
-    return false;
+    // traverse through the hashtable and free its contents
+    for(int i = 0; i < hashtable_size; i++)
+    {
+        if(hashtable[i] != NULL)
+        {
+            node *cursor = hashtable[i];
+            while(cursor != NULL)
+            {
+                node *temp = cursor;
+                cursor = cursor->next;
+                free(temp);
+
+            }
+        }
+    }
+
+
+    return true;
+
 }
