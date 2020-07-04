@@ -32,11 +32,11 @@ int main(void)
 {
     double base, exp, result;
     printf("Enter a base number: ");
-    scanf("%ld", &base);
+    scanf("%lf", &base);
     printf("Enter an exponent number: ");
-    scanf("%ld", &exp);
+    scanf("%lf", &exp);
 
     result = pow(base, exp);
-    printf("%.1ld ^ %.1ld is %.2ld", base, exp, result);
+    printf("%.1lf ^ %.1lf is %.2lf", base, exp, result);
     return 0;
 }
