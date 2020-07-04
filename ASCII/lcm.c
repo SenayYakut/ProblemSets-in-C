@@ -22,3 +22,5 @@ int main(void)
     }
     return 0;
 }
+
+//Formula for lcm = (n1 * n2) / gcd;
